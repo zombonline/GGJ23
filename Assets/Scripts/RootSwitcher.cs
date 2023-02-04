@@ -4,31 +4,84 @@ using UnityEngine;
 
 public class RootSwitcher : MonoBehaviour
 {
-    [SerializeField] Movement[] roots;
-    int activeRoot;
+    public List<Movement> roots;
+    public int maxRoots = 10;
+    public int activeRoot;
+    [SerializeField] Movement rootPrefab;
+
+    private void Awake()
+    {
+        var startRoot = Instantiate(rootPrefab, transform.position, Quaternion.identity);
+
+        AddNewRoot(startRoot);
+
+    }
+
+    public void AddNewRoot(Movement newRoot)
+    {
+        roots.Add(newRoot);
+
+        var i = 0;
+        foreach(Movement root in roots)
+        {
+            root.rootNumber = i;
+            i++;
+        }
+
+        UpdateCurrentlyControlled();
+    }
+
+    public void RemoveRoot(Movement rootToRemove)
+    {
+        
+        roots.Remove(rootToRemove);
+
+
+        var i = 0;
+        foreach (Movement root in roots)
+        {
+            root.rootNumber = i;
+            i++;
+        }
+
+        UpdateCurrentlyControlled();
+    }
+
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (FindObjectOfType<CanvasController>().GetGamePaused())
+        {
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             activeRoot++;
-            if(activeRoot > roots.Length - 1)
+            if (activeRoot > roots.Count - 1)
             {
                 activeRoot = 0;
             }
 
-            foreach(Movement root in roots)
-            {
-                if(root.rootNumber != activeRoot)
-                {
-                    root.currentlyControlling = false;
-                }
-                else
-                {
-                    root.currentlyControlling = true;
-                }
-            }
+            UpdateCurrentlyControlled();
         }
     }
 
+    private void UpdateCurrentlyControlled()
+    {
+        foreach (Movement root in roots)
+        {
+            if (root.rootNumber != activeRoot)
+            {
+                root.currentlyControlling = false;
+                root.GetComponent<SpriteRenderer>().color = Color.white;
+
+            }
+            else
+            {
+                root.currentlyControlling = true;
+                root.GetComponent<SpriteRenderer>().color = Color.green;
+
+            }
+        }
+    }
 }

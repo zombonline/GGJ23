@@ -19,19 +19,31 @@ public class Movement : MonoBehaviour
     [SerializeField] float timeBetweenLinePosPlacement = 0.1f;
     float timer;
 
-    [SerializeField] LineRenderer lineRenderer;
-    [SerializeField] EdgeCollider2D lineCollider;
+    LineRenderer lineRenderer;
+    EdgeCollider2D lineCollider;
+    [SerializeField] GameObject rootPrefab;
+    GameObject root;
     Mesh mesh;
+
+    public bool rootFinished = false;
+
 
     private void Awake()
     {
+        root = Instantiate(rootPrefab, Vector3.zero, Quaternion.identity);
+        lineRenderer = root.GetComponent<LineRenderer>();
+        lineCollider = root.GetComponent<EdgeCollider2D>();
         lineRenderer.SetPosition(posCount, transform.position);
         mesh = new Mesh();
         InvokeRepeating(nameof(GenerateLineCollider), 1f, 1f);
-
+        Invoke(nameof(ActivateCollider), 1f);
         rotation = startRotation;
     }
 
+    void ActivateCollider()
+    {
+        GetComponent<CircleCollider2D>().enabled = true;
+    }
     void GenerateLineCollider()
     {
         List<Vector2> points = new List<Vector2>();
@@ -46,6 +58,15 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
+        if (FindObjectOfType<CanvasController>().GetGamePaused())
+        {
+            return;
+        }
+        if (rootFinished)
+        {
+            return;
+        }
+
         timer -= Time.deltaTime;
         if (currentlyControlling)
         {
@@ -68,13 +89,5 @@ public class Movement : MonoBehaviour
         }
 
         transform.Translate(Vector2.down * speed * Time.deltaTime);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Roots"))
-        {
-            Debug.Log("You lose!");
-        }
     }
 }
