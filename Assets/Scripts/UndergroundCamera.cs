@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UndergroundCamera : MonoBehaviour
 {
-    [SerializeField] float panDownSpeed = 0.1f;
+    [SerializeField] float panBetweenTargetSpeed = 0.1f;
     RootSwitcher rootSwitcher;
 
     private void Awake()
@@ -17,7 +17,9 @@ public class UndergroundCamera : MonoBehaviour
         {
             return;
         }
-        transform.position = new Vector3(transform.position.x,  rootSwitcher.roots[rootSwitcher.activeRoot].transform.position.y, transform.position.z);
+        var targetPos = new Vector3(transform.position.x, rootSwitcher.roots[rootSwitcher.activeRoot].transform.position.y, transform.position.z);
+
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, panBetweenTargetSpeed * Time.deltaTime);
     }
 
 }

@@ -13,6 +13,12 @@ public class Movement : MonoBehaviour
 
     float rotation;
 
+    [SerializeField] Transform rayCastPoint;
+    [SerializeField] float rayCastLength;
+    [SerializeField] LayerMask obstacleLayer;
+    bool flashSprite = false;
+
+
     [SerializeField] float speed = 1.5f, rotateSpeed = 5f;
     int posCount = 0;
 
@@ -56,6 +62,36 @@ public class Movement : MonoBehaviour
         lineCollider.SetPoints(points);
     }
 
+    public void CheckForObstacles()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(rayCastPoint.position, -transform.up, rayCastLength, obstacleLayer);
+        Debug.DrawRay(rayCastPoint.position, -transform.up * rayCastLength, Color.red);
+        if (hit.collider != null)
+        {
+            if (!flashSprite)
+            {
+                flashSprite = true;
+                StartCoroutine(FlashSprite());
+            }
+        }
+        else
+        {
+            flashSprite = false;
+        }
+    }
+
+    IEnumerator FlashSprite()
+    {
+        while (flashSprite)
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            GetComponent<SpriteRenderer>().enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+    }
+
     private void Update()
     {
         if (FindObjectOfType<CanvasController>().GetGamePaused())
@@ -64,8 +100,11 @@ public class Movement : MonoBehaviour
         }
         if (rootFinished)
         {
+            flashSprite = false;
+
             return;
         }
+        CheckForObstacles();
 
         timer -= Time.deltaTime;
         if (currentlyControlling)
@@ -78,6 +117,7 @@ public class Movement : MonoBehaviour
 
         if (timer <= 0)
         {
+            FindObjectOfType<CanvasController>().metres += timeBetweenLinePosPlacement/2;
             posCount++;
             lineRenderer.SetVertexCount(posCount + 2);
 

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Roots
+  - Level
   layers:
   - Default
   - TransparentFX
@@ -12,7 +13,7 @@ TagManager:
   - Roots
   - Water
   - UI
-  - 
+  - Level
   - 
   - 
   - 
@@ -39,6 +40,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Soil
+    uniqueID: 4258693031
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Roots
+    uniqueID: 3919742941
+    locked: 0
+  - name: Rocks
+    uniqueID: 3212978883
     locked: 0

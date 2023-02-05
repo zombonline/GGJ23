@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RootSwitcher : MonoBehaviour
 {
@@ -36,13 +37,25 @@ public class RootSwitcher : MonoBehaviour
         
         roots.Remove(rootToRemove);
 
-
+        if(roots.Count == 0)
+        {
+            FindObjectOfType<CanvasController>().GameOver();
+            FindObjectOfType<BGMManager>().FadeToLose(FindObjectOfType<TreeGrowth>().currentLevel);
+            return;
+        }
         var i = 0;
+
+        Movement storedRoot = null;
         foreach (Movement root in roots)
         {
+            if(root.rootNumber == activeRoot)
+            {
+                storedRoot = root;
+            }
             root.rootNumber = i;
             i++;
         }
+        activeRoot = storedRoot.rootNumber;
 
         UpdateCurrentlyControlled();
     }
@@ -66,8 +79,16 @@ public class RootSwitcher : MonoBehaviour
         }
     }
 
+    public void RootPointClick(Movement root)
+    {
+        activeRoot = root.rootNumber;
+
+        UpdateCurrentlyControlled();
+    }
+
     private void UpdateCurrentlyControlled()
     {
+
         foreach (Movement root in roots)
         {
             if (root.rootNumber != activeRoot)
