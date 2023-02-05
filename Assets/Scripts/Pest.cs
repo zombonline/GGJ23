@@ -7,6 +7,7 @@ public class Pest : MonoBehaviour
     [SerializeField] int dir;
     [SerializeField] float speed;
     BoxCollider2D area;
+    [SerializeField] AudioClip sfx;
 
     [SerializeField] int waterPointsToRemove = 1;
 
@@ -29,6 +30,7 @@ public class Pest : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
+            AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
             //stop root moving
             collision.GetComponent<Movement>().rootFinished = true;
             //disable root icon

@@ -14,6 +14,7 @@ public class TreeGrowth : MonoBehaviour
 
     bool buffActive = false;
     [SerializeField] float buffTIme;
+    [SerializeField] AudioClip sfx;
 
     private void Awake()
     {
@@ -66,6 +67,8 @@ public class TreeGrowth : MonoBehaviour
 
     void LevelUpTree()
     {
+        AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
+
         waterPoints = 0;
         currentLevel++;
         FindObjectOfType<BGMManager>().SwitchTrack(currentLevel - 1, currentLevel);

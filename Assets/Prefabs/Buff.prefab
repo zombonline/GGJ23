@@ -1030,5 +1030,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be1d8bf97ba81e9458975c63c7f49bcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootPointPrefab: {fileID: 0}
   area: {fileID: 0}
+  sfx: {fileID: 8300000, guid: aa04f6d605c57984e915d9e3d28abea6, type: 3}

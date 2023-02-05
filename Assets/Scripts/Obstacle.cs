@@ -7,7 +7,7 @@ public class Obstacle : MonoBehaviour
     [SerializeField] int waterPointsToRemove = 1;
     [SerializeField] Sprite[] possibleSprites;
     [SerializeField] float minSize = 4, maxSize = 8;
-
+    [SerializeField] AudioClip sfx;
     private void Awake()
     {
         var randomSize = Random.Range(minSize, maxSize);
@@ -22,6 +22,8 @@ public class Obstacle : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
+
             //stop root moving
             collision.GetComponent<Movement>().rootFinished = true;
             //disable root icon

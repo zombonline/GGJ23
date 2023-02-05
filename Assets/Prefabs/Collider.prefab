@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterPointsToRemove: 1
+  sfx: {fileID: 8300000, guid: 710b6405708b84b4a9b7fafab15dc2c7, type: 3}
 --- !u!120 &7318087762493126886
 LineRenderer:
   m_ObjectHideFlags: 0

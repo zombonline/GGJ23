@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 81d1c81793c9d244ca97aef1c263c402, type: 3}
   minSize: 10
   maxSize: 13
+  sfx: {fileID: 8300000, guid: 710b6405708b84b4a9b7fafab15dc2c7, type: 3}
 --- !u!212 &5614187496385407164
 SpriteRenderer:
   m_ObjectHideFlags: 0

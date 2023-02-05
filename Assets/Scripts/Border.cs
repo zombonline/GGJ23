@@ -5,9 +5,11 @@ using UnityEngine;
 public class Border : MonoBehaviour
 {
     [SerializeField] int waterPointsToRemove = 1;
-
+    [SerializeField] AudioClip sfx;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
+
         if (collision.CompareTag("Player"))
         {
             //stop root moving

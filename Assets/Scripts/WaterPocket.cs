@@ -7,6 +7,7 @@ public class WaterPocket : MonoBehaviour
     [SerializeField] Movement rootPointPrefab;
     [SerializeField] int waterPointsEarned = 2;
     [SerializeField] BoxCollider2D area;
+    [SerializeField] AudioClip sfx;
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Level"))
@@ -27,6 +28,8 @@ public class WaterPocket : MonoBehaviour
 
         if (collision.CompareTag("Player"))
         {
+            AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
+
 
             //add water points (multiplier is how many active roots / 2)
             FindObjectOfType<TreeGrowth>().UpdateWaterPoints(waterPointsEarned);

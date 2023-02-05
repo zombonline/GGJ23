@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 1
-  speed: 6
+  speed: 5
+  sfx: {fileID: 8300000, guid: 0773e7a6ea198264893d08c8c14b8084, type: 3}
   waterPointsToRemove: 1
 --- !u!58 &8895382355333476058
 CircleCollider2D:
