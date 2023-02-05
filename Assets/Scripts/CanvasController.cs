@@ -25,7 +25,27 @@ public class CanvasController : MonoBehaviour
 
     [SerializeField] GameObject gameOverText, gameWinText;
 
+    [SerializeField] Image ScreenBlackOut;
 
+    [SerializeField] TextMeshProUGUI metresResult, timeResult, treeResult;
+
+    IEnumerator RemoveBlackOut()
+    {
+        gamePaused = true;
+        yield return new WaitForSeconds(.5f);
+        gamePaused = false;
+        while (ScreenBlackOut.color.a > 0)
+        {
+            ScreenBlackOut.color = new Color(ScreenBlackOut.color.r, ScreenBlackOut.color.g, ScreenBlackOut.color.b, ScreenBlackOut.color.a - 0.01f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        ScreenBlackOut.enabled = false;
+    }
+
+    private void Awake()
+    {
+        StartCoroutine(RemoveBlackOut());
+    }
     private void Update()
     {
         seconds += Time.deltaTime;
@@ -43,13 +63,13 @@ public class CanvasController : MonoBehaviour
 
     public void SettingsButton()
     {
-        LeanTween.move(settingsMenu, onScreen.localPosition, 0.25f);
+        LeanTween.moveLocal(settingsMenu, onScreen.localPosition, 0.25f);
         rootCamButton.SetActive(false);
     }
 
     public void CloseSettingsMenu()
     {
-        LeanTween.move(settingsMenu, offScreen.localPosition, 0.25f);
+        LeanTween.moveLocal(settingsMenu, offScreen.localPosition, 0.25f);
         rootCamButton.SetActive(true);
 
     }
@@ -77,14 +97,16 @@ public class CanvasController : MonoBehaviour
         cameraState.SetInteger("Level", 1);
         DisplayResult(gameOverText);
         gameUI.SetActive(false);
+        metresResult.text = metres.ToString("00.00") + "m";
+        timeResult.text = mins.ToString("00") + ":" + seconds.ToString("00");
+        treeResult.text = "Tree Growth: " + FindObjectOfType<TreeGrowth>().currentLevel.ToString() + "/6";
+        treeResult.gameObject.SetActive(true);
         Invoke(nameof(EnableGameOverMenu), 5f);
-        
-        FindObjectOfType<TreeGrowth>().KillTree();
     }
 
     void DisplayResult(GameObject result)
     {
-        LeanTween.move(result, resultPos.localPosition, 0.25f);
+        LeanTween.moveLocal(result, resultPos.localPosition, 0.25f);
     }
 
     public void GameWin()
@@ -94,8 +116,8 @@ public class CanvasController : MonoBehaviour
         cameraState.SetInteger("Level", 1);
         DisplayResult(gameWinText);
         gameUI.SetActive(false);
-
-
+        metresResult.text = metres.ToString("00.00") + "m";
+        timeResult.text = mins.ToString("00") + ":" + seconds.ToString("00");
         Invoke(nameof(EnableGameWinMenu), 5f);
     }
 
@@ -110,12 +132,12 @@ public class CanvasController : MonoBehaviour
 
     void EnableGameOverMenu()
     {
-        LeanTween.move(gameOverMenu, onScreen.localPosition, 0.25f);
+        LeanTween.moveLocal(gameOverMenu, onScreen.localPosition, 0.25f);
         
     }
     void EnableGameWinMenu()
     {
-        LeanTween.move(gameWinMenu, onScreen.localPosition, 0.25f);
+        LeanTween.moveLocal(gameWinMenu, onScreen.localPosition, 0.25f);
     }
     void EnableRootCamButton()
     {

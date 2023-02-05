@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rootPointPrefab: {fileID: 6938532549739203468, guid: e7a441f27fe9d094ab4e0cc9483f59a8, type: 3}
-  waterPointsEarned: 1
+  waterPointsEarned: 2
   area: {fileID: 0}
 --- !u!212 &4173981792389003676
 SpriteRenderer:

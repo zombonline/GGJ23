@@ -9,13 +9,11 @@ public class RootSwitcher : MonoBehaviour
     public int maxRoots = 10;
     public int activeRoot;
     [SerializeField] Movement rootPrefab;
-
+    [SerializeField] Sprite active, inactive;
     private void Awake()
     {
         var startRoot = Instantiate(rootPrefab, transform.position, Quaternion.identity);
-
         AddNewRoot(startRoot);
-
     }
 
     public void AddNewRoot(Movement newRoot)
@@ -94,13 +92,13 @@ public class RootSwitcher : MonoBehaviour
             if (root.rootNumber != activeRoot)
             {
                 root.currentlyControlling = false;
-                root.GetComponent<SpriteRenderer>().color = Color.white;
+                root.GetComponent<SpriteRenderer>().sprite = inactive;
 
             }
             else
             {
                 root.currentlyControlling = true;
-                root.GetComponent<SpriteRenderer>().color = Color.green;
+                root.GetComponent<SpriteRenderer>().sprite = active;
 
             }
         }

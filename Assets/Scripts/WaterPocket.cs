@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaterPocket : MonoBehaviour
 {
     [SerializeField] Movement rootPointPrefab;
-    [SerializeField] int waterPointsEarned = 1;
+    [SerializeField] int waterPointsEarned = 2;
     [SerializeField] BoxCollider2D area;
     public void OnTriggerEnter2D(Collider2D collision)
     {

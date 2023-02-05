@@ -9,11 +9,16 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField] GameObject introObject, menuObject, settingsObject;
     [SerializeField] RectTransform offScreenPos, onScreenPos;
+    [SerializeField] AudioSource musicPlayer, cogPlayer;
 
+    private void Update()
+    {
+        musicPlayer.volume = PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY,1f);
+        cogPlayer.volume = PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY,1f);
+    }
     private void Awake()
     {
     }
-
     public void IntroButton()
     {
         StartCoroutine(IntroCoroutine());

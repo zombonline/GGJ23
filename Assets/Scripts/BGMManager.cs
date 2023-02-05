@@ -25,8 +25,19 @@ public class BGMManager : MonoBehaviour
 
     private void Update()
     {
+        if(maxVolume != PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY, 1f))
+        {
+            foreach (AudioSource track in tracks)
+            {
+                if (track.volume != 0)
+                {
+                    track.volume = PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY, 1f);
+                }
+            }
+        }
+        maxVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY, 1f);
 
-       maxVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY, 1f);
+            maxVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY, 1f);
        
        if (!GetComponent<AudioSource>().isPlaying && !introDone)
        {

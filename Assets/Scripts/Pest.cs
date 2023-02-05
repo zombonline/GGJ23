@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pest : MonoBehaviour
 {
-    [SerializeField] float dir;
+    [SerializeField] int dir;
     [SerializeField] float speed;
     BoxCollider2D area;
 
@@ -13,10 +13,8 @@ public class Pest : MonoBehaviour
     private void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, transform.position + (Vector3.right * dir), speed * Time.deltaTime);
-        if (dir == -1)
-        {
-            transform.localScale = new Vector3(dir * .25f, transform.localScale.y, transform.localScale.z);
-        }
+
+        transform.localScale = new Vector3(dir * .25f, transform.localScale.y, transform.localScale.z);
 
     }
 

@@ -23,12 +23,26 @@ public class TreeGrowth : MonoBehaviour
     public void StartBuff()
     {
         buffActive = true;
+        foreach (Movement root in FindObjectsOfType<Movement>())
+        {
+            StartCoroutine(BuffSprite(root.GetComponent<SpriteRenderer>()));
+        }
         Invoke(nameof(DisableBuff),buffTIme);
     }
-    
+    IEnumerator BuffSprite(SpriteRenderer sprite)
+    {
+        while(buffActive)
+        {
+            sprite.color = Color.green;
+            yield return new WaitForSeconds(0.25f);
+            sprite.color = Color.white;
+            yield return new WaitForSeconds(0.25f);
+        }
+    }
     void DisableBuff()
     {
         buffActive = false;
+
     }
 
 

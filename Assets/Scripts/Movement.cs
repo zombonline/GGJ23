@@ -82,7 +82,7 @@ public class Movement : MonoBehaviour
 
     IEnumerator FlashSprite()
     {
-        while (flashSprite)
+        while (flashSprite && GetComponent<SpriteRenderer>())
         {
             GetComponent<SpriteRenderer>().enabled = false;
             yield return new WaitForSeconds(0.1f);
