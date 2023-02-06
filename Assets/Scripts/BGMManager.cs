@@ -7,13 +7,11 @@ public class BGMManager : MonoBehaviour
     [SerializeField] AudioSource[] tracks;
     [SerializeField] AudioClip win, lose;
     bool introDone = false;
-
+    bool introStarted = false;
     float maxVolume;
     private void Awake()
     {
         maxVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY, 1f);
-
-        GetComponent<AudioSource>().Play();
 
         foreach(AudioSource track in tracks)
         {
@@ -21,6 +19,12 @@ public class BGMManager : MonoBehaviour
             
         }
         tracks[0].volume = maxVolume;
+    }
+
+    public void BeginIntro()
+    {
+        GetComponent<AudioSource>().Play();
+        introStarted = true;
     }
 
     private void Update()
@@ -39,7 +43,7 @@ public class BGMManager : MonoBehaviour
 
             maxVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.MUSIC_VOLUME_KEY, 1f);
        
-       if (!GetComponent<AudioSource>().isPlaying && !introDone)
+       if (!GetComponent<AudioSource>().isPlaying && !introDone && introStarted)
        {
             introDone = true;
             foreach (AudioSource track in tracks)
@@ -87,7 +91,7 @@ public class BGMManager : MonoBehaviour
         while(track.volume > 0)
         {
             track.volume -= 0.01f;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.02f);
         }
     }
     IEnumerator FadeVolumeUp(AudioSource track)
@@ -95,7 +99,7 @@ public class BGMManager : MonoBehaviour
         while(track.volume < maxVolume)
         {
             track.volume += 0.01f;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.02f);
         }
     }
 

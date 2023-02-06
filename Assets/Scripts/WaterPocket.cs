@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class WaterPocket : MonoBehaviour
@@ -8,6 +9,7 @@ public class WaterPocket : MonoBehaviour
     [SerializeField] int waterPointsEarned = 2;
     [SerializeField] BoxCollider2D area;
     [SerializeField] AudioClip sfx;
+    [SerializeField] GameObject points;
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Level"))
@@ -30,8 +32,11 @@ public class WaterPocket : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
 
-
-            //add water points (multiplier is how many active roots / 2)
+            var newPoints = Instantiate(points.gameObject, collision.transform.position, Quaternion.identity);
+            newPoints.GetComponentInChildren<TextMeshPro>().color = Color.blue;
+            newPoints.GetComponentInChildren<TextMeshPro>().text = "+2";
+            Destroy(newPoints, 1f);
+            //add water points 
             FindObjectOfType<TreeGrowth>().UpdateWaterPoints(waterPointsEarned);
 
 

@@ -65,7 +65,7 @@ public class RootSwitcher : MonoBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+       /* if (Input.GetKeyDown(KeyCode.Space))
         {
             activeRoot++;
             if (activeRoot > roots.Count - 1)
@@ -74,7 +74,7 @@ public class RootSwitcher : MonoBehaviour
             }
 
             UpdateCurrentlyControlled();
-        }
+        }*/
     }
 
     public void RootPointClick(Movement root)
@@ -93,12 +93,15 @@ public class RootSwitcher : MonoBehaviour
             {
                 root.currentlyControlling = false;
                 root.GetComponent<SpriteRenderer>().sprite = inactive;
+                root.clickCollider.enabled = true;
 
             }
             else
             {
                 root.currentlyControlling = true;
                 root.GetComponent<SpriteRenderer>().sprite = active;
+                root.clickCollider.enabled = false;
+
 
             }
         }

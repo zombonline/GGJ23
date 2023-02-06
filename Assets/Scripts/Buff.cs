@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Buff : MonoBehaviour
 {
     [SerializeField] BoxCollider2D area;
     [SerializeField] AudioClip sfx;
+    [SerializeField] GameObject points;
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Level"))
@@ -27,6 +29,10 @@ public class Buff : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
+            var newPoints = Instantiate(points.gameObject, collision.transform.position, Quaternion.identity);
+            newPoints.GetComponentInChildren<TextMeshPro>().color = Color.green;
+            newPoints.GetComponentInChildren<TextMeshPro>().text = "x2";
+            Destroy(newPoints, 1f);
 
             FindObjectOfType<TreeGrowth>().StartBuff();
             //get rid of buff

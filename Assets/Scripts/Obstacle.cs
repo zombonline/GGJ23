@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour
@@ -8,6 +9,7 @@ public class Obstacle : MonoBehaviour
     [SerializeField] Sprite[] possibleSprites;
     [SerializeField] float minSize = 4, maxSize = 8;
     [SerializeField] AudioClip sfx;
+    [SerializeField] GameObject points;
     private void Awake()
     {
         var randomSize = Random.Range(minSize, maxSize);
@@ -23,6 +25,10 @@ public class Obstacle : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
+            var newPoints = Instantiate(points.gameObject, collision.transform.position, Quaternion.identity);
+            newPoints.GetComponentInChildren<TextMeshPro>().color = Color.red;
+            newPoints.GetComponentInChildren<TextMeshPro>().text = "-1";
+            Destroy(newPoints, 1f);
 
             //stop root moving
             collision.GetComponent<Movement>().rootFinished = true;

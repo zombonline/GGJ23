@@ -40,6 +40,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Sky
+    uniqueID: 1011909325
+    locked: 0
+  - name: Tree
+    uniqueID: 3685672893
+    locked: 0
   - name: Soil
     uniqueID: 4258693031
     locked: 0
@@ -51,4 +57,10 @@ TagManager:
     locked: 0
   - name: Rocks
     uniqueID: 3212978883
+    locked: 0
+  - name: Water & Buffs
+    uniqueID: 1258661457
+    locked: 0
+  - name: UI
+    uniqueID: 3814683585
     locked: 0

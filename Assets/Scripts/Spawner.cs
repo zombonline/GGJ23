@@ -18,7 +18,6 @@ public class Spawner : MonoBehaviour
         }
         for (int i = 0; i < buffsPerLevel; i++)
         {
-            GenerateBuff(level1);
             GenerateBuff(level2);
             GenerateBuff(level3);
         }

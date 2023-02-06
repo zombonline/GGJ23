@@ -51,6 +51,7 @@ MonoBehaviour:
   speed: 5
   sfx: {fileID: 8300000, guid: 0773e7a6ea198264893d08c8c14b8084, type: 3}
   waterPointsToRemove: 1
+  points: {fileID: 2455577935672915696, guid: 311de1a4038263d4db68fa61ec077aaa, type: 3}
 --- !u!58 &8895382355333476058
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -105,9 +106,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1081988413
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3e59f51410bfe324ca4bf2f3a1bafbeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

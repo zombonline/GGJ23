@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waterPointsToRemove: 1
   sfx: {fileID: 8300000, guid: 710b6405708b84b4a9b7fafab15dc2c7, type: 3}
+  points: {fileID: 2455577935672915696, guid: 311de1a4038263d4db68fa61ec077aaa, type: 3}
 --- !u!120 &7318087762493126886
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -87,7 +88,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -375224355
   m_SortingLayer: 1
-  m_SortingOrder: 3
+  m_SortingOrder: 0
   m_Positions:
   - {x: -23.078167, y: -17.365135, z: 0}
   m_Parameters:

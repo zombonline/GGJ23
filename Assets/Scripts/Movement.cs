@@ -31,6 +31,8 @@ public class Movement : MonoBehaviour
     GameObject root;
     Mesh mesh;
 
+    [SerializeField] public CircleCollider2D clickCollider;
+
     public bool rootFinished = false;
 
 
@@ -64,6 +66,8 @@ public class Movement : MonoBehaviour
 
     public void CheckForObstacles()
     {
+        if (!GetComponent<SpriteRenderer>())
+        { return; }
         RaycastHit2D hit = Physics2D.Raycast(rayCastPoint.position, -transform.up, rayCastLength, obstacleLayer);
         Debug.DrawRay(rayCastPoint.position, -transform.up * rayCastLength, Color.red);
         if (hit.collider != null)

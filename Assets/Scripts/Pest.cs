@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Pest : MonoBehaviour
@@ -10,7 +11,7 @@ public class Pest : MonoBehaviour
     [SerializeField] AudioClip sfx;
 
     [SerializeField] int waterPointsToRemove = 1;
-
+    [SerializeField] GameObject points;
     private void Update()
     {
         transform.position = Vector2.MoveTowards(transform.position, transform.position + (Vector3.right * dir), speed * Time.deltaTime);
@@ -30,6 +31,11 @@ public class Pest : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
+            var newPoints = Instantiate(points.gameObject, collision.transform.position, Quaternion.identity);
+            newPoints.GetComponentInChildren<TextMeshPro>().color = Color.red;
+            newPoints.GetComponentInChildren<TextMeshPro>().text = "-1";
+            Destroy(newPoints, 1f);
+
             AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
             //stop root moving
             collision.GetComponent<Movement>().rootFinished = true;

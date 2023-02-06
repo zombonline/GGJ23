@@ -8,7 +8,7 @@ using TMPro;
 
 public class CanvasController : MonoBehaviour
 {
-    [SerializeField] Slider treeProgress;
+    [SerializeField] public Slider treeProgress;
     [SerializeField] Animator cameraState;
     public GameObject rootCamButton;
     bool gamePaused = false;
@@ -29,26 +29,41 @@ public class CanvasController : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI metresResult, timeResult, treeResult;
 
+    bool sliderMoving;
+    [SerializeField] TextMeshProUGUI hintText, beginText;
+    [SerializeField] string[] hints;
     IEnumerator RemoveBlackOut()
     {
         gamePaused = true;
         yield return new WaitForSeconds(.5f);
+        FindObjectOfType<BGMManager>().BeginIntro();
         gamePaused = false;
         while (ScreenBlackOut.color.a > 0)
         {
+            beginText.color = new Color(hintText.color.r, hintText.color.g, hintText.color.b, hintText.color.a - 0.01f);
+
+            hintText.color = new Color(hintText.color.r, hintText.color.g, hintText.color.b, hintText.color.a - 0.01f);
             ScreenBlackOut.color = new Color(ScreenBlackOut.color.r, ScreenBlackOut.color.g, ScreenBlackOut.color.b, ScreenBlackOut.color.a - 0.01f);
             yield return new WaitForSeconds(0.01f);
         }
-        ScreenBlackOut.enabled = false;
+        ScreenBlackOut.gameObject.SetActive(false);
     }
-
     private void Awake()
     {
-        StartCoroutine(RemoveBlackOut());
+        gamePaused = true;
+        hintText.text = hints[Random.Range(0,hints.Length)];
     }
     private void Update()
     {
-        seconds += Time.deltaTime;
+        if(gamePaused && ScreenBlackOut.color.a == 1f && Input.GetMouseButtonDown(0))
+        {
+            StartCoroutine(RemoveBlackOut());
+        }
+
+        if (!gamePaused)
+        {
+            seconds += Time.deltaTime;
+        }
         if(seconds >= 59.95f)
         {
             mins++;
@@ -58,8 +73,43 @@ public class CanvasController : MonoBehaviour
 
         metreText.text = metres.ToString("00.00") + "m";
 
-        treeProgress.value = FindObjectOfType<TreeGrowth>().GetWaterPoints() / FindObjectOfType<TreeGrowth>().GetWaterPointsNeeded();
+
+
+        if (gameUI.activeInHierarchy)
+        {
+
+            if (treeProgress.value != FindObjectOfType<TreeGrowth>().GetWaterPoints() / FindObjectOfType<TreeGrowth>().GetWaterPointsNeeded() && !sliderMoving)
+            {
+                StartCoroutine(IncrementSlider());
+            }
+        }
     }
+    IEnumerator IncrementSlider()
+    {
+        sliderMoving = true;
+        while (System.Math.Round(treeProgress.value, 2) != System.Math.Round(FindObjectOfType<TreeGrowth>().GetWaterPoints() / FindObjectOfType<TreeGrowth>().GetWaterPointsNeeded(), 2))
+        {
+            if (treeProgress.value > FindObjectOfType<TreeGrowth>().GetWaterPoints() / FindObjectOfType<TreeGrowth>().GetWaterPointsNeeded())
+            {
+                treeProgress.value -= .01f;
+                GameObject.Find("Tree Fill").GetComponent<Image>().color = Color.clear;
+                yield return new WaitForSeconds(.1f);
+                GameObject.Find("Tree Fill").GetComponent<Image>().color = Color.white;
+                yield return new WaitForSeconds(.1f);
+            }
+            else if(treeProgress.value < FindObjectOfType<TreeGrowth>().GetWaterPoints() / FindObjectOfType<TreeGrowth>().GetWaterPointsNeeded())
+            {
+                treeProgress.value += .01f;
+                GameObject.Find("Tree Fill").GetComponent<Image>().color = Color.clear;
+                yield return new WaitForSeconds(.1f);
+                GameObject.Find("Tree Fill").GetComponent<Image>().color = Color.white;
+                yield return new WaitForSeconds(.1f);
+            }
+        }
+        sliderMoving = false;
+
+    }
+
 
     public void SettingsButton()
     {
@@ -96,7 +146,6 @@ public class CanvasController : MonoBehaviour
         //change camera
         cameraState.SetInteger("Level", 1);
         DisplayResult(gameOverText);
-        gameUI.SetActive(false);
         metresResult.text = metres.ToString("00.00") + "m";
         timeResult.text = mins.ToString("00") + ":" + seconds.ToString("00");
         treeResult.text = "Tree Growth: " + FindObjectOfType<TreeGrowth>().currentLevel.ToString() + "/6";
@@ -115,10 +164,12 @@ public class CanvasController : MonoBehaviour
         //change camera
         cameraState.SetInteger("Level", 1);
         DisplayResult(gameWinText);
-        gameUI.SetActive(false);
         metresResult.text = metres.ToString("00.00") + "m";
         timeResult.text = mins.ToString("00") + ":" + seconds.ToString("00");
-        Invoke(nameof(EnableGameWinMenu), 5f);
+        treeResult.text = "Tree Growth: " + "6/6";
+
+        treeResult.gameObject.SetActive(true);
+        Invoke(nameof(EnableGameWinMenu), 10f);
     }
 
     public void ReplayButton()
@@ -133,15 +184,22 @@ public class CanvasController : MonoBehaviour
     void EnableGameOverMenu()
     {
         LeanTween.moveLocal(gameOverMenu, onScreen.localPosition, 0.25f);
-        
+        gameUI.SetActive(false);
+
+
     }
     void EnableGameWinMenu()
     {
         LeanTween.moveLocal(gameWinMenu, onScreen.localPosition, 0.25f);
+        gameUI.SetActive(false);
+
     }
     void EnableRootCamButton()
     {
-        rootCamButton.SetActive(true);
+        if (FindObjectOfType<TreeGrowth>().currentLevel < 5)
+        {
+            rootCamButton.SetActive(true);
+        }
     }
 
     void DisableRootCamButton()
