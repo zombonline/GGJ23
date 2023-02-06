@@ -31,7 +31,7 @@ public class WaterPocket : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_VOLUME_KEY));
-
+            FindObjectOfType<CameraAudio>().ParentAudio();
             var newPoints = Instantiate(points.gameObject, collision.transform.position, Quaternion.identity);
             newPoints.GetComponentInChildren<TextMeshPro>().color = Color.blue;
             newPoints.GetComponentInChildren<TextMeshPro>().text = "+2";
