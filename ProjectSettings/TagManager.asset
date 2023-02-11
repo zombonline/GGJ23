@@ -55,11 +55,11 @@ TagManager:
   - name: Roots
     uniqueID: 3919742941
     locked: 0
-  - name: Rocks
-    uniqueID: 3212978883
-    locked: 0
   - name: Water & Buffs
     uniqueID: 1258661457
+    locked: 0
+  - name: Rocks
+    uniqueID: 3212978883
     locked: 0
   - name: UI
     uniqueID: 3814683585

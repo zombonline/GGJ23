@@ -14,6 +14,10 @@ public class Pest : MonoBehaviour
     [SerializeField] GameObject points;
     private void Update()
     {
+        if(FindObjectOfType<CanvasController>().GetGamePaused())
+        {
+            return;
+        }
         transform.position = Vector2.MoveTowards(transform.position, transform.position + (Vector3.right * dir), speed * Time.deltaTime);
 
         transform.localScale = new Vector3(dir * .25f, transform.localScale.y, transform.localScale.z);
